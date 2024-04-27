@@ -1,0 +1,80 @@
+<form [formGroup]="newsForm" (ngSubmit)="onSubmitForm()">
+  <mat-card appearance="outlined">
+    <!-- Header -->
+    <mat-card-header>
+      <mat-card-title *ngIf="isNew">Create Post</mat-card-title>
+      <mat-card-title *ngIf="!isNew">Update Post</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <!-- Headline -->
+      <mat-form-field appearance="outline" color="accent">
+        <mat-label>Headline</mat-label>
+        <input
+          matInput
+          placeholder="Headline"
+          formControlName="headline"
+          name="headline"
+          required />
+      </mat-form-field>
+
+      <!-- Sypnosis -->
+      <mat-form-field appearance="outline" color="accent">
+        <mat-label>Sypnosis</mat-label>
+        <textarea
+          matInput
+          placeholder="Sypnosis here."
+          formControlName="sypnosis"
+          name="sypnosis"></textarea>
+      </mat-form-field>
+
+      <!-- Main Story -->
+      <mat-form-field appearance="outline" color="accent">
+        <mat-label>Main Story</mat-label>
+        <textarea
+          matInput
+          placeholder="Main story here."
+          formControlName="main_story"
+          name="main_story"></textarea>
+      </mat-form-field>
+
+      <!-- Orgainization -->
+      <mat-form-field appearance="outline" color="accent">
+        <mat-label>Organization</mat-label>
+        <mat-select matinput formControlName="organization" name="organization">
+          <mat-option
+            *ngFor="let organization of organizations$ | async as organizations"
+            [value]="organization.name">
+            {{ organization.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- Slug -->
+      <mat-form-field
+        hintLabel="Must contain only lowercase letters, numbers, or dashes"
+        appearance="outline"
+        color="accent">
+        <mat-label>Slug</mat-label>
+        <input matInput placeholder="Slug" formControlName="slug" name="slug" />
+      </mat-form-field>
+
+      <!-- Image URL -->
+      <mat-form-field appearance="outline" color="accent">
+        <mat-label>Image URL</mat-label>
+        <input
+          matInput
+          placeholder="Image URL"
+          formControlName="image_url"
+          name="image_url" />
+      </mat-form-field>
+
+      <!-- Save Button -->
+      <mat-card-actions>
+        <button mat-stroked-button type="submit" [disabled]="newsForm.invalid">
+          SAVE
+        </button>
+      </mat-card-actions>
+    </mat-card-content>
+  </mat-card>
+</form>

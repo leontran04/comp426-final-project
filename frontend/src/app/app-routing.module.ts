@@ -5,11 +5,15 @@ import { GateComponent } from './gate/gate.component';
 import { HomeComponent } from './home/home.component';
 import { ProfileEditorComponent } from './profile/profile-editor/profile-editor.component';
 import { AboutComponent } from './about/about.component';
+import { NewsComponent } from './news/news.component';
+import { NewsEditorComponent } from './news/news-editor/news-editor.component';
 
 const routes: Routes = [
   HomeComponent.Route,
   AboutComponent.Route,
   GateComponent.Route,
+  NewsComponent.Route,
+  NewsEditorComponent.Route,
   {
     path: 'coworking',
     title: 'Cowork in the XL',
@@ -47,14 +51,6 @@ const routes: Routes = [
     title: 'Experimental',
     loadChildren: () =>
       import('./event/event.module').then((m) => m.EventModule)
-  },
-  {
-    path: 'ta-application',
-    title: 'TA Applications',
-    loadChildren: () =>
-      import('./ta-application/ta-application.module').then(
-        (m) => m.ApplicationsModule
-      )
   }
 ];
 

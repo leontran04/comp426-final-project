@@ -10,6 +10,7 @@ from ...services import (
     OrganizationService,
     EventService,
     RoomService,
+    NewsService,
 )
 
 __authors__ = ["Kris Jordan", "Ajay Gandecha"]
@@ -49,6 +50,12 @@ def role_svc(session: Session, permission_svc_mock: PermissionService):
 def organization_svc_integration(session: Session):
     """This fixture is used to test the OrganizationService class with a real PermissionService."""
     return OrganizationService(session, PermissionService(session))
+
+
+@pytest.fixture()
+def news_svc_integration(session: Session):
+    """This fixture is used to test the NewsService class with a real PermissionService."""
+    return NewsService(session, PermissionService(session))
 
 
 @pytest.fixture()

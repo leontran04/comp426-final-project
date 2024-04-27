@@ -1,0 +1,24 @@
+<!-- Event Card -->
+<mat-card
+  [ngClass]="selected ? 'selected-card' : ''"
+  appearance="outlined"
+  class="news-card"
+  (click)="clickNews.emit(news)">
+  <!-- Inner Columns -->
+  <div class="inner-column">
+    <div class="header-section">
+      <p class="news-name">{{ news.headline }}</p>
+      <p class="news-date">
+        {{ news.pub_date | date: 'MMMM d' }}
+      </p>
+    </div>
+    <div class="content-section">
+      <p class="news-synopsis">
+        {{ news.synopsis }}
+      </p>
+      <p class="news-shorthand">
+        {{ news.organization?.shorthand ?? '' }}
+      </p>
+    </div>
+  </div>
+</mat-card>

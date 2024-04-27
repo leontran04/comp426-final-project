@@ -19,7 +19,6 @@ import {
 import { Event } from '../event.model';
 import { Observable, of } from 'rxjs';
 import { PermissionService } from 'src/app/permission.service';
-import { NagivationAdminGearService } from 'src/app/navigation/navigation-admin-gear.service';
 
 /** Injects the event's name to adjust the title. */
 let titleResolver: ResolveFn<string> = (route: ActivatedRouteSnapshot) => {
@@ -55,8 +54,7 @@ export class EventDetailsComponent {
 
   constructor(
     private route: ActivatedRoute,
-    private permission: PermissionService,
-    private gearService: NagivationAdminGearService
+    private permission: PermissionService
   ) {
     /** Initialize data from resolvers. */
     const data = this.route.snapshot.data as {
@@ -70,15 +68,6 @@ export class EventDetailsComponent {
     this.adminPermission$ = this.permission.check(
       'organization.events.view',
       `organization/${this.event.organization!.id}`
-    );
-  }
-
-  ngOnInit() {
-    this.gearService.showAdminGear(
-      'events.*',
-      '*',
-      '',
-      `events/organizations/${this.event.organization?.slug}/events/${this.event.id}/edit`
     );
   }
 }

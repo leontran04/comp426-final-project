@@ -1,17 +1,5 @@
 """Package for all models in the application."""
 
-from .application import (
-    Application,
-    UTAApplication,
-    NewUTAApplication,
-    ReturningUTAApplication,
-)
-from .application_details import (
-    ApplicationDetails,
-    UTAApplicationDetails,
-    NewUTAApplicationDetails,
-    ReturningUTAApplicationDetails,
-)
 from .pagination import Paginated, PaginationParams, EventPaginationParams
 from .permission import Permission
 from .user import User, ProfileForm
@@ -30,6 +18,7 @@ from .event_registration import (
     NewEventRegistration,
 )
 from .registration_type import RegistrationType
+from .news import News
 
 __authors__ = ["Kris Jordan"]
 __copyright__ = "Copyright 2023"

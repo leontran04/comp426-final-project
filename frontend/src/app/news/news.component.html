@@ -1,0 +1,95 @@
+<div>
+  <div class="parameter-bar">
+    <search-bar
+      class="search-bar"
+      [searchBarQuery]="searchBarQuery"
+      (searchBarQueryChange)="this.searchUpdate.next($event)" />
+  </div>
+
+  <div class="container">
+    <div class="news-grid">
+      <div class="news-column">
+        <!-- `eventsPerDay` is in the format of a list of tuples, where
+                    eventGroup[0] is the date string and eventGroup[1] s a list of events -->
+        <mat-card class="date-range" appearance="outlined">
+          <button mat-icon-button (click)="showNews(true)">
+            <mat-icon>keyboard_arrow_left</mat-icon>
+          </button>
+          <p *ngIf="today; else not_today" class="date-range-text">
+            {{ startDate | date: 'mediumDate' }} <code>&#8212;</code> Today
+          </p>
+          <ng-template #not_today>
+            <p class="date-range-text">
+              {{ startDate | date: 'mediumDate' }}
+              <code>&#8212;</code>
+              {{ endDate | date: 'mediumDate' }}
+            </p>
+          </ng-template>
+          <button mat-icon-button (click)="showNews(false)">
+            <mat-icon>keyboard_arrow_right</mat-icon>
+          </button>
+        </mat-card>
+        <mat-card class="news-section" appearance="outlined">
+          <news-widget
+            *ngFor="let news of newsGroup"
+            [news]="news"
+            (click)="clickNews(news)" />
+        </mat-card>
+        <!---
+        <event-list
+          [eventsPerDay]="eventsPerDay"
+          [selectedEvent]="selectedEvent"
+          [disableLinks]="innerWidth > 900"
+          (cardClicked)="onEventCardClicked($event)"
+          [fullWidth]="true" />
+        -->
+      </div>
+
+      <div class="details-column">
+        <mat-card class="news-detail" appearance="outlined">
+          <div *ngIf="selectedNews">
+            <!-- Title -->
+            <div class="news-title">
+              <mat-card-title> {{ selectedNews.headline }} </mat-card-title>
+            </div>
+
+            <mat-divider id="top-divider" />
+
+            <div class="author-section">
+              <p id="author-name">
+                <strong>By: </strong>
+                {{
+                  selectedNews.user?.first_name +
+                    ' ' +
+                    selectedNews.user?.last_name
+                }}
+              </p>
+            </div>
+
+            <mat-divider id="top-divider" />
+            <!--
+            <div class="organization-section">
+              <img
+                mat-card-image
+                src="{{ selectedNews?.organization?.logo }}"
+                class="logo" />
+              <p id="organization-name">
+                {{ selectedNews?.organization?.shorthand }}
+              </p>
+            </div>
+            -->
+
+            <div class="news-description">
+              <p>
+                <i class="news-date">{{
+                  selectedNews.pub_date | date: 'medium'
+                }}</i>
+              </p>
+              {{ selectedNews.main_story }}
+            </div>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>

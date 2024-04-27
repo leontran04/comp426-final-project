@@ -20,12 +20,12 @@ export class HomeComponent {
     let profile: Profile | undefined = route.snapshot.data['profile'];
     if (profile) {
       if (profile.id) {
-        router.navigateByUrl('/coworking');
+        router.navigateByUrl('/news');
       } else {
-        router.navigateByUrl('/profile');
+        router.navigateByUrl('/news');
       }
     } else {
-      router.navigateByUrl('/about');
+      router.navigateByUrl('/news');
     }
   }
 }
