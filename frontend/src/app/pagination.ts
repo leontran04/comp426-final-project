@@ -13,6 +13,14 @@ export interface EventPaginationParams {
   range_end: string;
 }
 
+export interface NewsPaginationParams {
+  order_by: string;
+  ascending: string;
+  filter: string;
+  range_start: string;
+  range_end: string;
+}
+
 export interface Paginated<T> {
   items: T[];
   length: number;
@@ -23,4 +31,10 @@ export interface PaginatedEvent<T> {
   items: T[];
   length: number;
   params: EventPaginationParams;
+}
+
+export interface PaginatedNews<T> {
+  items: T[];
+  length: number;
+  params: NewsPaginationParams;
 }

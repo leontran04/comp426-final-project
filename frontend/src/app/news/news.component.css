@@ -1,0 +1,154 @@
+.container {
+    padding-left: 24px;
+    -ms-overflow-style: none;
+    /* Internet Explorer 10+ */
+    scrollbar-width: none;
+    /* Firefox */
+  }
+  
+  .container::-webkit-scrollbar {
+    display: none;
+    /* Safari and Chrome */
+  }
+  
+  .mat-mdc-card {
+    margin: 0;
+    max-width: 100%;
+  }
+  
+  .news-grid {
+    display: grid;
+    grid-template-columns: auto 800px;
+    margin-top: 4px;
+    row-gap: 15px;
+    column-gap: 24px;
+    width: inherit;
+  }
+  
+  .parameter-bar {
+    padding: 24px 24px 0px 24px;
+    display: flex;
+    direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    z-index: 2;
+    position: sticky;
+    top: 64px;
+    background-color: #303030;
+  }
+  
+  .search-bar {
+    width: 100%;
+    border-radius: 100%;
+  }
+  
+  .date-range {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 1.5vh !important;
+    align-items: center;
+    justify-content: space-between;
+    height: 6vh;
+  }
+  
+  .date-range-text {
+    font-size: large;
+    margin: 0;
+  }
+  
+  .news-column {
+    position: sticky;
+    bottom: 24px;
+    top: 170px;
+    height: 73vh;
+  }
+  
+  .details-column {
+    position: sticky;
+    right: 24px;
+    bottom: 24px;
+    top: 170px;
+    width: 788px;
+    height: 69.5vh;
+  }
+
+  .news-section {
+    height: 62vh;
+    overflow-y: auto;
+    padding: 16px;
+    margin: 0px;
+  }
+
+  .news-detail {
+    padding: 4px 16px;
+    margin: 0px;
+    height: 100%;
+    /* If content overflows card, add a scroll bar! */
+    overflow-y: auto;
+  }
+  
+  @media only screen and (max-width: 1300px) {
+    .news-grid {
+      grid-template-columns: auto 600px;
+    }
+  
+    .details-column {
+      width: 588px;
+    }
+  }
+  
+  @media only screen and (max-width: 1100px) {
+    .news-grid {
+      grid-template-columns: auto 500px;
+    }
+  
+    .details-column {
+      width: 488px;
+    }
+  }
+  
+  @media only screen and (max-width: 1000px) {
+    .news-grid {
+      grid-template-columns: auto 0;
+    }
+  
+    .details-column {
+      visibility: hidden;
+    }
+  }
+  
+  @media (prefers-color-scheme: light) {
+    .parameter-bar {
+      background-color: #fafafa;
+    }
+  }
+
+  #top-divider {
+    margin: 0;
+  }
+  
+  .news-title {
+    margin: 0.5rem 0
+  }
+
+  .author-section {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 0px;
+    width: 100%;
+  }
+
+  #author-name {
+
+  }
+
+  .news-description {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .news-date {
+    color: rgb(132, 132, 132);
+    font-size: 14px;
+  }

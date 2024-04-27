@@ -121,6 +121,7 @@ export class EventEditorComponent {
       Validators.min(this.event.registration_count)
     );
 
+    // Should the edit form be enabled?
     this.enabled$ = this.permission
       .check(
         'organization.events.update',

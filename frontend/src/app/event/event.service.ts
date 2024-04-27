@@ -20,7 +20,6 @@ import { DatePipe } from '@angular/common';
 import { EventPaginationParams, PaginatedEvent } from 'src/app/pagination';
 import { Profile, ProfileService } from '../profile/profile.service';
 import { Paginated, PaginationParams } from '../pagination';
-import { RxEvent } from './rx-event';
 
 @Injectable({
   providedIn: 'root'
@@ -28,9 +27,6 @@ import { RxEvent } from './rx-event';
 export class EventService {
   private profile: Profile | undefined;
   private profileSubscription!: Subscription;
-
-  private events: RxEvent = new RxEvent();
-  public events$: Observable<Event[]> = this.events.value$;
 
   constructor(
     protected http: HttpClient,

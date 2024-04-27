@@ -29,6 +29,16 @@ class EventPaginationParams(PaginationParams):
     range_end: str = ""
 
 
+class NewsPaginationParams(PaginationParams):
+    """Parameters passed from the client to paginate news results."""
+
+    order_by: str = ""
+    ascending: str = "true"
+    filter: str = ""
+    range_start: str = ""
+    range_end: str = ""
+
+
 class Paginated(BaseModel, Generic[T]):
     """Generic class for returning paginating results to the client."""
 

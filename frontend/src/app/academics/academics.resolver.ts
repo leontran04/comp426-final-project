@@ -8,14 +8,10 @@
  */
 
 import { inject } from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  ResolveFn,
-  RouterStateSnapshot
-} from '@angular/router';
+import { ResolveFn } from '@angular/router';
 import { AcademicsService } from './academics.service';
 import { Course, Room, Section, SectionMember, Term } from './academics.models';
-import { catchError, of, switchMap } from 'rxjs';
+import { catchError, of } from 'rxjs';
 
 /** This resolver injects the list of courses into the catalog component. */
 export const coursesResolver: ResolveFn<Course[] | undefined> = (
@@ -129,13 +125,6 @@ export const sectionResolver: ResolveFn<Section | undefined> = (
         return of(undefined);
       })
     );
-};
-
-export const sectionsResolver: ResolveFn<Section[]> | undefined = (
-  route: ActivatedRouteSnapshot,
-  state: RouterStateSnapshot
-) => {
-  return inject(AcademicsService).getSectionsByTerm24F();
 };
 
 /** This resolver injects the list of rooms into the offerings component. */

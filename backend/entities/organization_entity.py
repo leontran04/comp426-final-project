@@ -54,6 +54,10 @@ class OrganizationEntity(EntityBase):
         back_populates="organization", cascade="all,delete"
     )
 
+    news: Mapped[list["NewsEntity"]] = relationship(
+        back_populates="organization", cascade="all,delete"
+    )
+
     @classmethod
     def from_model(cls, model: Organization) -> Self:
         """

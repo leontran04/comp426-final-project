@@ -38,7 +38,6 @@ import { EventDetailsComponent } from './event-details/event-details.component';
 import { EventPageComponent } from './event-page/event-page.component';
 import { EventEditorComponent } from './event-editor/event-editor.component';
 import { EventUsersList } from './widgets/event-users-list/event-users-list.widget';
-import { EventListAdminComponent } from './event-list-admin/event-list-admin.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +45,7 @@ import { EventListAdminComponent } from './event-list-admin/event-list-admin.com
     EventDetailsComponent,
     EventPageComponent,
     EventEditorComponent,
-    EventListAdminComponent,
+
     EventUsersList
   ],
   imports: [
