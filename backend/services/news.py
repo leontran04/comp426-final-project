@@ -1,9 +1,8 @@
 from fastapi import Depends
 from sqlalchemy import select, func, and_, exists, or_
 from sqlalchemy.orm import Session
-
 from ..database import db_session
-from ..models.news import News
+from ..models.news import News, StateEnum
 from ..entities.news_entity import NewsEntity
 from ..entities.organization_entity import OrganizationEntity
 from ..models import User
@@ -24,16 +23,27 @@ class NewsService:
         self._session = session
         self._permission = permission
 
-    def all(self) -> list[News]:
+    def all(self, subject: User) -> list[News]:
         """
         Retrieves all organizations from the table
 
         Returns:
             list[Organization]: List of all `Organization`
         """
-        # Select all entries in `Organization` table
-        query = select(NewsEntity)
-        entities = self._session.scalars(query).all()
+
+        if self._permission.check(subject, "news.all", f"news"):
+
+            # Select all entries in `Organization` table
+            query = select(NewsEntity)
+            entities = self._session.scalars(query).all()
+
+        else:
+
+            entities = (
+                self._session.query(NewsEntity)
+                .filter(NewsEntity.user_id == subject.id)
+                .all()
+            )
 
         # Convert entries to a model and return
         return [entity.to_model() for entity in entities]
@@ -97,11 +107,7 @@ class NewsService:
         self._permission.enforce(subject, "news.update", f"news/{news.slug}")
 
         # Query the organization with matching id
-        obj = (
-            self._session.query(NewsEntity)
-            .filter(NewsEntity.slug == news.slug)
-            .one_or_none()
-        )
+        obj = self._session.get(NewsEntity, news.id) if news.id else None
 
         # Check if result is null
         if obj is None:
@@ -113,6 +119,7 @@ class NewsService:
         obj.headline = news.headline
         obj.synopsis = news.synopsis
         obj.main_story = news.main_story
+        obj.organization_id = news.organization_id
         obj.state = news.state
         obj.slug = news.slug
         obj.image_url = news.image_url
@@ -167,9 +174,9 @@ class NewsService:
             range_start = pagination_params.range_start
             range_end = pagination_params.range_end
             criteria = and_(
-                NewsEntity.pub_date
+                NewsEntity.mod_date
                 >= datetime.strptime(range_start, "%d/%m/%Y, %H:%M:%S"),
-                NewsEntity.pub_date
+                NewsEntity.mod_date
                 <= datetime.strptime(range_end, "%d/%m/%Y, %H:%M:%S"),
             )
             statement = statement.where(criteria)
@@ -204,6 +211,8 @@ class NewsService:
         #             getattr(NewsEntity, pagination_params.order_by).desc()
         #         )
         #     )
+        statement = statement.where(NewsEntity.state == StateEnum.PUBLISHED)
+
         statement = statement.order_by(
             getattr(NewsEntity, pagination_params.order_by).desc()
         )
@@ -218,3 +227,83 @@ class NewsService:
             length=length,
             params=pagination_params,
         )
+
+    def archive_news(self, subject: User, slug: str) -> News:
+        """
+        Archive the news post.
+
+        Parameters:
+            subject: a valid User model representing the currently logged-in user
+            slug: a string representing a unique identifier for a news post
+
+        Returns:
+            News: Updated news post object
+
+        Raises:
+            ResourceNotFoundException: If no news post is found with the corresponding slug
+        """
+        # Check if user has admin permissions or any other required permission
+        self._permission.enforce(subject, "news.archive", f"news/{slug}")
+
+        # Query the news post with matching slug
+        news_entity = (
+            self._session.query(NewsEntity)
+            .filter(NewsEntity.slug == slug)
+            .one_or_none()
+        )
+
+        # Ensure news post exists
+        if news_entity is None:
+            raise ResourceNotFoundException(
+                f"No news post found with matching slug: {slug}"
+            )
+
+        # Update the state of the news post to "archive"
+        news_entity.state = (
+            StateEnum.ARCHIVED
+        )  # Assuming 2 represents the "archive" state
+
+        # Commit the changes to the database
+        self._session.commit()
+
+        # Return the updated news post object
+        return news_entity.to_model()
+
+    def recover_news(self, subject: User, slug: str) -> News:
+        """
+        Recover the news post.
+
+        Parameters:
+            subject: a valid User model representing the currently logged-in user
+            slug: a string representing a unique identifier for a news post
+
+        Returns:
+            News: Updated news post object
+
+        Raises:
+            ResourceNotFoundException: If no news post is found with the corresponding slug
+        """
+        # Check if user has admin permissions or any other required permission
+        self._permission.enforce(subject, "news.recover", f"news/{slug}")
+
+        # Query the news post with matching slug
+        news_entity = (
+            self._session.query(NewsEntity)
+            .filter(NewsEntity.slug == slug)
+            .one_or_none()
+        )
+
+        # Ensure news post exists
+        if news_entity is None:
+            raise ResourceNotFoundException(
+                f"No news post found with matching slug: {slug}"
+            )
+
+        # Update the state of the news post to "archive"
+        news_entity.state = StateEnum.DRAFT  # Assuming 2 represents the "archive" state
+
+        # Commit the changes to the database
+        self._session.commit()
+
+        # Return the updated news post object
+        return news_entity.to_model()

@@ -67,7 +67,7 @@
     position: sticky;
     right: 24px;
     bottom: 24px;
-    top: 170px;
+    top: 155px;
     width: 788px;
     height: 69.5vh;
   }
@@ -151,4 +151,8 @@
   .news-date {
     color: rgb(132, 132, 132);
     font-size: 14px;
+  }
+
+  #empty-button {
+    visibility: hidden;
   }

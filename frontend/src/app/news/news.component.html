@@ -25,9 +25,17 @@
               {{ endDate | date: 'mediumDate' }}
             </p>
           </ng-template>
-          <button mat-icon-button (click)="showNews(false)">
+          <button
+            *ngIf="!today; else is_today"
+            mat-icon-button
+            (click)="showNews(false)">
             <mat-icon>keyboard_arrow_right</mat-icon>
           </button>
+          <ng-template #is_today
+            ><mat-icon id="empty-button"
+              >keyboard_arrow_right</mat-icon
+            ></ng-template
+          >
         </mat-card>
         <mat-card class="news-section" appearance="outlined">
           <news-widget

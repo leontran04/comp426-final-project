@@ -1,10 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { permissionGuard } from 'src/app/permission.guard';
 import { News } from 'src/app/news/news.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AdminNewsService } from '../admin-news.service';
-import { Observable } from 'rxjs';
+import { Observable, map, of } from 'rxjs';
 
 @Component({
   selector: 'app-admin-news-list',
@@ -14,6 +14,8 @@ import { Observable } from 'rxjs';
 export class AdminNewsListComponent {
   /** News List */
   public news$: Observable<News[]>;
+  public draftNews$: Observable<News[]>;
+  public archiveNews$: Observable<News[]>;
 
   public displayedColumns: string[] = ['headline'];
 
@@ -30,10 +32,12 @@ export class AdminNewsListComponent {
     private snackBar: MatSnackBar,
     private adminNewsService: AdminNewsService
   ) {
-    this.news$ = adminNewsService.news$;
-    adminNewsService.list();
+    this.news$ = adminNewsService.getPublishNews();
+    this.draftNews$ = adminNewsService.getDraftNews();
+    this.archiveNews$ = adminNewsService.getArchiveNews();
+    this.archiveNews$.subscribe((archived) => console.log(archived.length));
+    //adminNewsService.list();
   }
-
   /** Event handler to open the Organization Editor to create a new organization */
   createNews(): void {
     // Navigate to the org editor for a new organization (slug = create)
@@ -42,6 +46,27 @@ export class AdminNewsListComponent {
   editNews(news: News): void {
     this.router.navigate(['news', 'edit', news.slug]);
   }
+
+  archiveNews(news: News): void {
+    this.adminNewsService.archiveNews(news).subscribe(() => {
+      // Optionally, perform any additional actions after archiving the news post
+      this.snackBar.open('News post archived successfully.', '', {
+        duration: 2000
+      });
+      this.router.navigate(['admin', 'news']);
+    });
+  }
+
+  recoverNews(news: News): void {
+    this.adminNewsService.recoverNews(news).subscribe(() => {
+      // Optionally, perform any additional actions after archiving the news post
+      this.snackBar.open('News post recovered successfully.', '', {
+        duration: 2000
+      });
+      this.router.navigate(['admin', 'news']);
+    });
+  }
+
   deleteNews(news: News): void {
     let confirmDelete = this.snackBar.open(
       'Are you sure you want to delete this news post?',

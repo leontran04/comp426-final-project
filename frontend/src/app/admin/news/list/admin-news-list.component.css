@@ -17,6 +17,18 @@
     border-color: white;
 }
 
+.test {
+    border: 1px solid white;
+    padding: 15px;
+    background-color: white;
+    margin-bottom: 10px;
+    display: flex;
+  }
+
+.content {
+    margin-bottom: 10px;
+}
+
 .header {
     display: flex;
     justify-content: space-between;
@@ -39,4 +51,3 @@
 .edit-button {
     margin-right: 15px; 
 }
-  

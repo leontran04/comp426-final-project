@@ -1,4 +1,7 @@
+from http.client import HTTPException
 from fastapi import APIRouter, Depends
+
+from backend.services.exceptions import ResourceNotFoundException
 from ..services.news import NewsService
 from ..models.news import News
 from ..api.authentication import registered_user
@@ -37,6 +40,7 @@ def list_news(
 @api.get("", response_model=list[News], tags=["News"])
 def get_all_news(
     news_service: NewsService = Depends(),
+    subject: User = Depends(registered_user),
 ) -> list[News]:
     """
     Get all organizations
@@ -49,7 +53,7 @@ def get_all_news(
     """
 
     # Return all organizations
-    return news_service.all()
+    return news_service.all(subject)
 
 
 @api.get("/{slug}", response_model=News, tags=["News"])
@@ -143,3 +147,51 @@ def delete_news(
     """
 
     news_service.delete(subject, slug)
+
+
+@api.put("/{slug}/archive", tags=["News"])
+def archive_news(
+    slug: str,
+    subject: User = Depends(registered_user),
+    news_service: NewsService = Depends(),
+):
+    """
+    Archive the news post with the specified slug.
+
+    Parameters:
+        slug: a string representing a unique identifier for a news post
+        subject: a valid User model representing the currently logged-in user
+        news_service: a valid NewsService instance
+
+    Returns:
+        dict: A message confirming the successful archiving of the news post
+
+    Raises:
+        HTTPException 404 if the news post with the specified slug is not found
+    """
+    news_service.archive_news(subject, slug)
+    return {"message": "News post archived successfully"}
+
+
+@api.put("/{slug}/draft", tags=["News"])
+def recover_news(
+    slug: str,
+    subject: User = Depends(registered_user),
+    news_service: NewsService = Depends(),
+):
+    """
+    Archive the news post with the specified slug.
+
+    Parameters:
+        slug: a string representing a unique identifier for a news post
+        subject: a valid User model representing the currently logged-in user
+        news_service: a valid NewsService instance
+
+    Returns:
+        dict: A message confirming the successful archiving of the news post
+
+    Raises:
+        HTTPException 404 if the news post with the specified slug is not found
+    """
+    news_service.recover_news(subject, slug)
+    return {"message": "News post recovered successfully"}

@@ -33,7 +33,7 @@ class NewsEntity(EntityBase):
     )
 
     # One to one
-    user_id: Mapped[int] = mapped_column(ForeignKey("user.id"), primary_key=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey("user.id"))
     user: Mapped["UserEntity"] = relationship(back_populates="news")
 
     # Many to one

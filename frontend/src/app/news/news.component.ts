@@ -29,6 +29,7 @@ import { PaginatedNews } from 'src/app/pagination';
 export class NewsComponent implements OnInit, OnDestroy {
   public static Route = {
     path: 'news',
+    title: 'News',
     component: NewsComponent,
     resolve: {
       page: () => inject(NewsService).list(NewsComponent.NewsPaginationParams)
@@ -42,7 +43,7 @@ export class NewsComponent implements OnInit, OnDestroy {
   public today: boolean = true;
 
   private static NewsPaginationParams = {
-    order_by: 'pub_date',
+    order_by: 'mod_date',
     ascending: 'false',
     filter: '',
     range_start: new Date(

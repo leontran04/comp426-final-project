@@ -23,9 +23,9 @@
         <mat-label>Sypnosis</mat-label>
         <textarea
           matInput
-          placeholder="Sypnosis here."
-          formControlName="sypnosis"
-          name="sypnosis"></textarea>
+          placeholder="Synopsis here."
+          formControlName="synopsis"
+          name="synopsis"></textarea>
       </mat-form-field>
 
       <!-- Main Story -->
@@ -72,7 +72,14 @@
       <!-- Save Button -->
       <mat-card-actions>
         <button mat-stroked-button type="submit" [disabled]="newsForm.invalid">
-          SAVE
+          PUBLISH
+        </button>
+        <button
+          mat-stroked-button
+          type="button"
+          [disabled]="newsForm.invalid"
+          (click)="saveDraft()">
+          SAVE AS DRAFT
         </button>
       </mat-card-actions>
     </mat-card-content>

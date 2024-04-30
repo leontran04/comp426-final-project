@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AmbassadorXlListComponent } from './ambassador-xl/list/ambassador-xl-list.component';
 import { AmbassadorPageComponent } from './ambassador-home.component';
 import { AmbassadorRoomListComponent } from './ambassador-room/list/ambassador-room-list.component';
+import { AmbassadorNewsListComponent } from './ambassador-news/list/ambassador-news-list.component';
 
 const routes: Routes = [
   {
@@ -10,7 +11,8 @@ const routes: Routes = [
     component: AmbassadorPageComponent,
     children: [
       AmbassadorXlListComponent.Route,
-      AmbassadorRoomListComponent.Route
+      AmbassadorRoomListComponent.Route,
+      AmbassadorNewsListComponent.Route
     ]
   }
 ];

@@ -1,0 +1,77 @@
+<div class="content" *ngIf="news$ | async as news">
+  <table mat-table [dataSource]="news">
+    <ng-container matColumnDef="headline">
+      <th mat-header-cell *matHeaderCellDef>
+        <div class="header">
+          News
+          <button
+            mat-stroked-button
+            class="create-button"
+            (click)="createNews()">
+            Create
+          </button>
+        </div>
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <div class="row">
+          <p>{{ element.headline }}</p>
+          <div class="action-buttons">
+            <button
+              mat-stroked-button
+              class="edit-button"
+              (click)="editNews(element)">
+              Edit
+            </button>
+          </div>
+        </div>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="['headline']"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['headline']"></tr>
+  </table>
+</div>
+<!--<div *ngIf="news$ | async as news">
+  <mat-card
+    class="content"
+    *ngIf="news.length > 0; else noNews"
+    appearance="outlined">
+    <mat-card-header>
+      <mat-card-title>Your Posts</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <table mat-table [dataSource]="news">
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef>ID</th>
+          <td mat-cell *matCellDef="let news">{{ news.id }}</td>
+        </ng-container>
+        <ng-container matColumnDef="headline">
+          <th mat-header-cell *matHeaderCellDef>HEADLINE</th>
+          <td mat-cell *matCellDef="let news">{{ news.headline }}</td>
+        </ng-container>
+        <ng-container matColumnDef="synopsis">
+          <th mat-header-cell *matHeaderCellDef>SYNOPSIS</th>
+          <td mat-cell *matCellDef="let news">{{ news.synopsis }}</td>
+        </ng-container>
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Actions</th>
+          <td mat-cell *matCellDef="let news">
+            <button>test</button>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+        <tr mat-row *matRowDef="let news; columns: columnsToDisplay"></tr>
+      </table>
+    </mat-card-content>
+  </mat-card>
+
+  <ng-template #noNews>
+    <mat-card class="content" appearance="outlined">
+      <mat-card-header>
+        <mat-card-title>Your Posts</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>Empty. </mat-card-content>
+    </mat-card>
+  </ng-template>
+</div>
+-->
