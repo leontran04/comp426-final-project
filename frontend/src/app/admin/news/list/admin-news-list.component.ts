@@ -48,12 +48,21 @@ export class AdminNewsListComponent {
   }
 
   archiveNews(news: News): void {
-    this.adminNewsService.archiveNews(news).subscribe(() => {
-      // Optionally, perform any additional actions after archiving the news post
-      this.snackBar.open('News post archived successfully.', '', {
-        duration: 2000
+    let confirmDelete = this.snackBar.open(
+      'Are you sure you want to delete this news post?',
+      'Delete',
+      { duration: 15000 }
+    );
+    confirmDelete.onAction().subscribe(() => {
+      this.adminNewsService.archiveNews(news).subscribe(() => {
+        // Optionally, perform any additional actions after archiving the news post
+        this.snackBar.open('News post archived successfully.', '', {
+          duration: 2000
+        });
       });
-      this.router.navigate(['admin', 'news']);
+      this.archiveNews$ = this.adminNewsService.getArchiveNews();
+      this.draftNews$ = this.adminNewsService.getDraftNews();
+      this.news$ = this.adminNewsService.getPublishNews();
     });
   }
 
@@ -63,7 +72,8 @@ export class AdminNewsListComponent {
       this.snackBar.open('News post recovered successfully.', '', {
         duration: 2000
       });
-      this.router.navigate(['admin', 'news']);
+      this.draftNews$ = this.adminNewsService.getDraftNews();
+      this.archiveNews$ = this.adminNewsService.getArchiveNews();
     });
   }
 
