@@ -31,6 +31,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { AmbassadorXlListComponent } from './ambassador-home/ambassador-xl/list/ambassador-xl-list.component';
 import { AmbassadorRoomListComponent } from './ambassador-home/ambassador-room/list/ambassador-room-list.component';
+import { AmbassadorNewsListComponent } from './ambassador-home/ambassador-news/list/ambassador-news-list.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { AmbassadorRoomListComponent } from './ambassador-home/ambassador-room/l
     AmbassadorPageComponent,
     AmbassadorXlListComponent,
     AmbassadorRoomListComponent,
+    AmbassadorNewsListComponent,
     CoworkingDropInCard,
     CoworkingReservationCard,
     CoworkingHoursCard,

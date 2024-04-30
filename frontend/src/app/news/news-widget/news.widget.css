@@ -1,99 +1,103 @@
-/* Apply some styling to the material design card */
+
 .mat-mdc-card {
-  margin: 8px 0; 
+  margin: 4px 0px !important;
   max-width: 100%;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
-  transition: background-color 0.3s ease, transform 0.3s ease; 
-  border-radius: 8px; 
-  border: 1px solid transparent; 
 }
 
 .mat-mdc-card:hover {
-  background-color: #fafafa; 
-  transform: translateY(-4px); 
+  background-color: #525252;
   cursor: pointer;
 }
 
 .selected-card {
-  background-color: #fafafa; 
+  background-color: #525252;
   cursor: default;
 }
 
 .selected-card:hover {
+  background-color: #525252;
   cursor: default;
 }
 
 .description-text {
   overflow: hidden;
   text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 3; 
-  -webkit-box-orient: vertical;
-  font-weight: 600; 
-  color: #333; 
+  line-clamp: 3;
+  -webkit-line-clamp: 3;
 }
 
 .inner-column {
   display: flex;
   flex-direction: column;
-  padding: 16px; 
+  padding: 12px;
 }
 
 .header-section {
   display: flex;
-  justify-content: space-between; 
-  align-items: center; 
+  flex-direction: row;
 }
 
+/*
+.news-card {
+  margin-top: 12px !important;
+}
+*/
+
 .news-name {
-  font-weight: 700; 
-  margin: 0;
+  font-weight: 500;
+  margin: 0px;
+  width: 75%;
 }
 
 .news-date {
-  margin: 0;
+  margin: 0px;
   text-align: end;
+  width: 25%;
 }
 
 .content-section {
   display: flex;
   flex-direction: row;
-  margin-top: 12px; 
+  margin-top: 8px;
 }
 
-.news-synopsis,
+.news-synopsis {
+  margin: 0px;
+  width: 50%;
+}
+
 .news-shorthand {
-  flex: 1; 
-  margin: 0;
-  color: #555; 
+  margin: 0px;
+  text-align: end;
 }
 
-@media (prefers-color-scheme: dark) {
-  /* Dark mode styles */
-  body {
-    background-color: #121212; 
-    color: #ffffff; 
-  }
+.logo {
+  height: auto;
+  max-width: 1.5rem;
+  max-height: 1.5rem;
+  border-radius: 2rem;
+  margin-right: 0.5rem;
+}
 
-  .mat-mdc-card {
-    background-color: #1e1e1e; 
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); 
-    border-color: #333; 
-  }
+.organization-section {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  align-items: center;
+  margin: 0px;
+  width: 50%;
+}
 
-  .mat-mdc-card:hover,
-  .selected-card,
-  .selected-card:hover {
-    background-color: #333; 
+@media (prefers-color-scheme: light) {
+  .mat-mdc-card:hover {
+      background-color: #f5f5f5;
   }
-
-  .news-name {
-    color: #ffffff; 
-  }
-
   
-  .news-date {
-    color: #bbbbbb; 
+  .selected-card {
+      background-color: #f5f5f5;
+  }
+  
+  .selected-card:hover {
+      background-color: #f5f5f5;
   }
 }
-

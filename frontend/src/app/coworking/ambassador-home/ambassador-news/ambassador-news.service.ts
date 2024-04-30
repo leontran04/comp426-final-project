@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Observable, tap, map } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { RxNews } from 'src/app/news/rx-news';
 import { News } from 'src/app/news/news.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AdminNewsService {
+export class AmbassadorNewsService {
   private news: RxNews = new RxNews();
   public news$: Observable<News[]> = this.news.value$;
   constructor(
@@ -22,27 +22,8 @@ export class AdminNewsService {
   list(): void {
     this.http.get<News[]>('/api/news').subscribe((news) => this.news.set(news));
   }
-
   getAllNews(): Observable<News[]> {
     return this.http.get<News[]>('/api/news');
-  }
-
-  getDraftNews(): Observable<News[]> {
-    return this.http
-      .get<News[]>('/api/news')
-      .pipe(map((news) => news.filter((n: News) => n.state === 0)));
-  }
-
-  getPublishNews(): Observable<News[]> {
-    return this.http
-      .get<News[]>('/api/news')
-      .pipe(map((news) => news.filter((n: News) => n.state === 1)));
-  }
-
-  getArchiveNews(): Observable<News[]> {
-    return this.http
-      .get<News[]>('/api/news')
-      .pipe(map((news) => news.filter((n: News) => n.state === 2)));
   }
 
   /** Returns the news object from the backend database table using the backend HTTP get request.
@@ -69,35 +50,5 @@ export class AdminNewsService {
    */
   updateNews(news: News): Observable<News> {
     return this.http.put<News>('/api/news', news);
-  }
-
-  deleteNews(newsToRemove: News): Observable<News> {
-    return this.http.delete<News>(`/api/news/${newsToRemove.slug}`).pipe(
-      tap((_) => {
-        this.news.removeNews(newsToRemove);
-      })
-    );
-  }
-
-  archiveNews(news: News): Observable<any> {
-    return this.http.put(`/api/news/${news.slug}/archive`, {}).pipe(
-      tap(() => {
-        // Optionally, perform any additional actions after archiving the news post
-        this.snackBar.open('News post archived successfully.', '', {
-          duration: 2000
-        });
-      })
-    );
-  }
-
-  recoverNews(news: News): Observable<any> {
-    return this.http.put(`/api/news/${news.slug}/draft`, {}).pipe(
-      tap(() => {
-        // Optionally, perform any additional actions after recovering the news post
-        this.snackBar.open('News post recovered successfully.', '', {
-          duration: 2000
-        });
-      })
-    );
   }
 }

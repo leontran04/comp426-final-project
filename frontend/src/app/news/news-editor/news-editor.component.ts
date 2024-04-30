@@ -30,7 +30,7 @@ export class NewsEditorComponent {
 
   /** Form controls (individual form items) */
   headline = new FormControl('', [Validators.required]);
-  sypnosis = new FormControl('', [Validators.required]);
+  synopsis = new FormControl('', [Validators.required]);
   main_story = new FormControl('', [Validators.required]);
   organization = new FormControl('');
   slug = new FormControl('', [
@@ -42,7 +42,7 @@ export class NewsEditorComponent {
   /** Form group (stores all form controls) */
   public newsForm = this.formBuilder.group({
     headline: this.headline,
-    sypnosis: this.sypnosis,
+    synopsis: this.synopsis,
     main_story: this.main_story,
     organization: this.organization,
     slug: this.slug,
@@ -50,7 +50,11 @@ export class NewsEditorComponent {
   });
 
   /** Stores the ID of the timer currently being edited. */
+  id = -1;
   current: string = '';
+  pub_date = new Date();
+  mod_date = new Date();
+  state = State.DRAFT;
   /** Stores whether or not the timer is new. */
   isNew: boolean = false;
   organizations$: Observable<Organization[]>;
@@ -76,13 +80,17 @@ export class NewsEditorComponent {
     if (!this.isNew) {
       this.current = route.snapshot.params['slug'];
       newsService.getNews(this.current).subscribe((newsData) => {
+        this.id = newsData.id!;
+        this.pub_date = newsData.pub_date;
+        this.mod_date = newsData.mod_date;
+        this.state = newsData.state;
         let organizationName = '';
-        if (newsData.organization) {
-          organizationName = newsData.organization.name;
+        if (newsData.organization!) {
+          organizationName = newsData.organization!.name;
         }
         this.newsForm.setValue({
           headline: newsData.headline,
-          sypnosis: newsData.synopsis,
+          synopsis: newsData.synopsis,
           main_story: newsData.main_story,
           organization: organizationName,
           slug: newsData.slug,
@@ -118,7 +126,108 @@ export class NewsEditorComponent {
       let newsData: News = {
         id: null, // Assign null for new news items
         headline: this.headline.value!,
-        synopsis: this.sypnosis.value!,
+        synopsis: this.synopsis.value!,
+        main_story: this.main_story.value!,
+        user_id: -1,
+        user: null,
+        organization_id: null,
+        organization: null,
+        //author: null, // No author provided in form
+        //organization_id: 1, // No organization ID provided in form
+        //organization: null, // Use the selected organization or null if not selected
+        state: State.PUBLISHED, // Default state is DRAFT
+        image_url: this.image_url.value, // Use the provided imageURL or null if not provided
+        slug: this.slug.value!,
+        pub_date: new Date(
+          new Date().setHours(new Date().getHours() - diff_in_hours)
+        ), // Use the current date for publishDate
+        mod_date: new Date(
+          new Date().setHours(new Date().getHours() - diff_in_hours)
+        ) // Use the current date for modifiedDate
+      };
+      console.log(new Date());
+      console.log(this.profile);
+      if (this.profile != null) {
+        newsData['user_id'] = this.profile.id!;
+        newsData['user'] = this.profile;
+      }
+
+      /*
+      this.organizations$.subscribe((organizations) => {
+        for (let i = 0; i < organizations.length; i++) {
+          if (organizations[i].name == this.organization.value) {
+            newsData['organization_id'] = organizations[i]['id'];
+            newsData['organization'] = organizations[i];
+            break;
+          }
+        }
+      });
+*/
+
+      for (let i = 0; i < this.organizations.length; i++) {
+        console.log(this.organizations[i].name + ' ' + this.organization.value);
+        if (this.organizations[i].name == this.organization.value) {
+          newsData.organization_id = this.organizations[i].id;
+          newsData.organization = this.organizations[i];
+          break;
+        }
+      }
+
+      if (!this.isNew) {
+        newsData.id = this.id;
+        newsData.pub_date = this.pub_date;
+        newsData.mod_date = this.mod_date;
+      }
+
+      console.log(newsData);
+      //this.newsService.createNews(newsData).subscribe();
+
+      const newsObservable = this.isNew
+        ? this.newsService.createNews(newsData)
+        : this.newsService.updateNews(newsData);
+
+      newsObservable.subscribe(
+        () => {
+          const message = this.isNew
+            ? 'News created successfully!'
+            : 'News updated successfully!';
+          this.snackBar.open(message, '', { duration: 2000 });
+          this.router.navigate(['/news']);
+        },
+        (error) => {
+          const errorMessage = this.isNew
+            ? 'Error creating news: '
+            : 'Error updating news: ';
+          this.snackBar.open(errorMessage + error, '', { duration: 2000 });
+        }
+      );
+    } else {
+      this.snackBar.open('Please enter values in the form correctly.', '', {
+        duration: 2000
+      });
+    }
+  }
+
+  saveDraft() {
+    let date = new Date();
+    let utc_date = new Date(
+      date.getUTCFullYear(),
+      date.getUTCMonth(),
+      date.getUTCDate(),
+      date.getUTCHours(),
+      date.getUTCMinutes(),
+      date.getUTCSeconds()
+    );
+    let diff_in_hours =
+      (Math.floor(utc_date.getTime() / 1000) -
+        Math.floor(date.getTime() / 1000)) /
+      (60 * 60);
+    console.log(diff_in_hours);
+    if (this.newsForm.valid) {
+      let newsData: News = {
+        id: null, // Assign null for new news items
+        headline: this.headline.value!,
+        synopsis: this.synopsis.value!,
         main_story: this.main_story.value!,
         user_id: -1,
         user: null,
@@ -163,6 +272,12 @@ export class NewsEditorComponent {
           newsData.organization = this.organizations[i];
           break;
         }
+      }
+
+      if (!this.isNew) {
+        newsData.id = this.id;
+        newsData.pub_date = this.pub_date;
+        newsData.mod_date = this.mod_date;
       }
 
       console.log(newsData);

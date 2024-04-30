@@ -21,7 +21,8 @@ export class AmbassadorPageComponent implements OnInit {
       path: '/coworking/ambassador/xl',
       default: true
     },
-    { label: 'Room Reservations', path: '/coworking/ambassador/room' }
+    { label: 'Room Reservations', path: '/coworking/ambassador/room' },
+    { label: 'Your Posts', path: '/coworking/ambassador/news' }
   ];
 
   constructor(private router: Router) {}
