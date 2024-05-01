@@ -59,7 +59,21 @@ testpost1 = NewsEntity(
     user_id=2,
     organization_id=2,
 )
-news = [testpost, testpost1]
+
+testpost2 = NewsEntity(
+    id=3,
+    headline="test2",
+    synopsis="test2",
+    main_story="test2",
+    state=StateEnum.PUBLISHED,
+    slug="test1",
+    image_url="",
+    pub_date=date_maker(days_in_future=-40, hour=10, minutes=0),
+    mod_date=date_maker(days_in_future=-40, hour=10, minutes=0),
+    user_id=2,
+    organization_id=4,
+)
+news = [testpost, testpost1, testpost2]
 
 
 def insert_fake_data(session: Session):
