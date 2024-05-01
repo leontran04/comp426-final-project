@@ -95,6 +95,13 @@
               </p>
               {{ selectedNews.main_story }}
             </div>
+
+            <mat-divider id="top-divider" />
+
+            <img
+              *ngIf="selectedNews.image_url"
+              [src]="selectedNews.image_url"
+              alt="News Image" />
           </div>
         </mat-card>
       </div>

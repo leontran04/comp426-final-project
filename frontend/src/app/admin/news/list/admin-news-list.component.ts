@@ -59,10 +59,10 @@ export class AdminNewsListComponent {
         this.snackBar.open('News post archived successfully.', '', {
           duration: 2000
         });
+        this.archiveNews$ = this.adminNewsService.getArchiveNews();
+        this.draftNews$ = this.adminNewsService.getDraftNews();
+        this.news$ = this.adminNewsService.getPublishNews();
       });
-      this.archiveNews$ = this.adminNewsService.getArchiveNews();
-      this.draftNews$ = this.adminNewsService.getDraftNews();
-      this.news$ = this.adminNewsService.getPublishNews();
     });
   }
 
