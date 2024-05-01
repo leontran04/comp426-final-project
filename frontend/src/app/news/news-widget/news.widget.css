@@ -61,11 +61,34 @@
   margin-top: 12px; 
 }
 
-.news-synopsis,
+.news-synopsis {
+  margin: 0px;
+  width: 50%;
+}
+
 .news-shorthand {
   flex: 1; 
-  margin: 0;
+  margin: 0px;
   color: #555; 
+  text-align: end;
+}
+
+.logo {
+  height: auto;
+  max-width: 1.5rem;
+  max-height: 1.5rem;
+  border-radius: 2rem;
+  /* margin-right: 0rem; */
+  margin-left: 14rem;
+}
+
+.organization-section {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  align-items: center;
+  margin: 0px;
+  width: 50%;
 }
 
 @media (prefers-color-scheme: dark) {
