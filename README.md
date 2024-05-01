@@ -15,22 +15,6 @@ Our final project fulfills all the required components:
 * Pleasing user experience with good design and ease of use (10 points)
 * Quality presentation video demonstrating the project (10 points)
 
-## Repository Structure
-
-* [Get Started with a Development Environment](docs/get_started.md)
-
-### Developer Docs
-
-* [Branch, Pull Request, and Code Review Practices](docs/branches.md)
-* [Database Concerns](docs/database.md)
-* [Authentication, Authorization, and Permissions](docs/auth.md)
-* [Testing Tools](docs/testing.md)
-* [Debugging Tools](docs/debugging.md)
-
-### Feature Docs
-
-* [Github Integration](docs/github_integration.md)
-
 ## Presentation Video
 
 A presentation video demonstrating the CSXL web application and its various components can be found at [link to video].
