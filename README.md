@@ -17,7 +17,7 @@ Our final project fulfills all the required components:
 
 ## Presentation Video
 
-A presentation video demonstrating the CSXL web application and its various components can be found at [link to video].
+A presentation video demonstrating the CSXL web application and its various components can be found at https://www.youtube.com/watch?v=kZg1I2GwUF8 and https://www.youtube.com/watch?v=RCWZGPG4pIg
 
 ## Submission Details
 
